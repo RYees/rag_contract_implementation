@@ -1,6 +1,7 @@
 import warnings
 warnings.filterwarnings("ignore")
-from langchain.document_loaders import DirectoryLoader
+# from langchain.document_loaders import DirectoryLoader
+from pypdf import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
 import weaviate
@@ -15,20 +16,40 @@ WEAVIATE_KEY = env_vars.get('WEAVIATE_KEY')
 WEAVIATE_CLUSTER = env_vars.get('WEAVIATE_CLUSTER')
 
 
-def pdf_loader(file_path):
-    loader = DirectoryLoader(file_path, glob="**/*.pdf")
-    data = loader.load()
-    # print(f'You have {len(data)} documents in your data')
-    # print(f'There are {len(data[0].page_content)} characters in your document')
-    # print(data)
-    return data
+# def pdf_loader(file_path):
+#     loader = DirectoryLoader(file_path, glob="**/*.pdf")
+#     data = loader.load()
+#     # print(f'You have {len(data)} documents in your data')
+#     # print(f'There are {len(data[0].page_content)} characters in your document')
+#     # print(data)
+#     return data
 
-def text_splitter(data):
-    ### TESTING SPLITTING: splitting our text we want to do that because each chunk of text will be comprised in a vector and we don't want them to be too big because otherwise they would be two large pieces of text to put in rgbt model and actuall the gpt model has limited input size so once you enter a large number of inputs or tokens into the gpt model it will crash so we can't make your chunks too big otherwise they won't be suitable as an input for GPT 
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
-    docs = text_splitter.split_documents(data)
-    # print(docs)
-    return docs
+def pdf_reader(file_path):
+    reader = PdfReader(file_path)
+    pdf_texts = [p.extract_text().strip() for p in reader.pages]
+    # Filter the empty strings
+    pdf_texts = [text for text in pdf_texts if text]
+    # print(pdf_texts[0])
+    return pdf_texts
+
+# def text_splitter(data):
+#     ### TESTING SPLITTING: splitting our text we want to do that because each chunk of text will be comprised in a vector and we don't want them to be too big because otherwise they would be two large pieces of text to put in rgbt model and actuall the gpt model has limited input size so once you enter a large number of inputs or tokens into the gpt model it will crash so we can't make your chunks too big otherwise they won't be suitable as an input for GPT 
+#     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+#     docs = text_splitter.split_documents(data)
+#     # print(docs)
+#     return docs
+
+def text_splitter_chunks(pdf_texts):
+    character_splitter = RecursiveCharacterTextSplitter(
+        separators=["\n\n", "\n", ". ", " ", ""],
+        chunk_size=1000,
+        chunk_overlap=0
+    )
+    character_split_texts = character_splitter.split_text('\n\n'.join(pdf_texts))
+    # print(character_split_texts[10])
+    # print(f"\nTotal chunks: {len(character_split_texts)}")
+    return character_split_texts
+
 
 def embedding():
     ### EMBEDDING
@@ -45,6 +66,7 @@ def connect_vectordb():
     client = weaviate.Client(
         url=WEAVIATE_URL,
         additional_headers={"X-OpenAI-Api-Key": OPENAI_API_KEY},
+        # embedded_options=None,
         auth_client_secret=auth_config,
         startup_period=10
     )
