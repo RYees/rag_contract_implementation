@@ -44,12 +44,12 @@ def sentence_transfomer_textsplitter(character_split_texts):
 
 def embedding(token_split_texts):
     embedding_function = SentenceTransformerEmbeddingFunction()
-    print(embedding_function([token_split_texts[10]]))
+    # print(embedding_function([token_split_texts[10]]))
     return embedding_function
 
 def connect_with_chromadb(embedding_function, token_split_texts):
     chroma_client = chromadb.Client()
-    chroma_collection = chroma_client.create_collection("microsoft_annual_report_2022", embedding_function=embedding_function)
+    chroma_collection = chroma_client.create_collection("microsoft_annual_report_2021", embedding_function=embedding_function)
 
     ids = [str(i) for i in range(len(token_split_texts))]
 
@@ -62,9 +62,9 @@ def vectordb_answer_question(query, chroma_collection):
     results = chroma_collection.query(query_texts=[query], n_results=5)
     retrieved_documents = results['documents'][0]
 
-    for document in retrieved_documents:
-        print(document)
-        print('\n')
+    # for document in retrieved_documents:
+    #     print(document)
+    #     print('\n')
     return retrieved_documents
 
 def openai_model_answer(query, retrieved_documents, model="gpt-3.5-turbo"):
@@ -73,8 +73,7 @@ def openai_model_answer(query, retrieved_documents, model="gpt-3.5-turbo"):
     messages = [
         {
             "role": "system",
-            "content": "You are a helpful expert financial research assistant. Your users are asking questions about information contained in an annual report."
-            "You will be shown the user's question, and the relevant information from the annual report. Answer the user's question using only this information."
+            "content": "You are happy assistant. Use the context provided below to answer the question. Answer question in summarization "
         },
         {"role": "user", "content": f"Question: {query}. \n Information: {information}"}
     ]
