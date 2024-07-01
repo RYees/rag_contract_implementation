@@ -1,0 +1,23 @@
+nav {
+    box-sizing: border-box;
+}
+
+ul {
+    list-style-type: none;
+}
+
+ul li {
+    
+}
+
+ul li a {
+    color: #000;
+}
+   
+ul li a:hover {
+color: #00a8ff;
+}
+
+ul li a.active {
+color: #00a8ff;
+}

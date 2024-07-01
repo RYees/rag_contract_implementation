@@ -2,6 +2,7 @@
 export default {
   content: [
     "./index.html",
+    "public/**/*.jsx",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
@@ -9,3 +10,4 @@ export default {
   },
   plugins: [],
 }
+
