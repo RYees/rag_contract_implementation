@@ -7,7 +7,7 @@ const Chat = () => {
       <div className="w-24 bg-blue-100 p-4">
         <SideBar/>
       </div>
-      <div className="flex-grow p-4">
+      <div className="flex-grow p-4 ml-14">
         <ChatBox/>
       </div>
     </div>
