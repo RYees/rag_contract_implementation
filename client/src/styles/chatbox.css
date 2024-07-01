@@ -1,0 +1,4 @@
+.chat_tag {
+    background: rgb(2,0,36);
+    background: linear-gradient(180deg, rgba(241, 240, 245, 0.329) 4%, rgb(200, 220, 235) 35%, rgba(241, 240, 245, 0.329) 100%);
+}

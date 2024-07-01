@@ -1,23 +1,18 @@
-nav {
-    box-sizing: border-box;
+.list {
+    display: block;
+  }
+  
+.list_name {
+font-size: 12px;
+text-align: center;
 }
 
-ul {
-    list-style-type: none;
-}
-
-ul li {
-    
-}
-
-ul li a {
-    color: #000;
-}
-   
-ul li a:hover {
+.icons:hover,
+.list:hover {
 color: #00a8ff;
 }
 
-ul li a.active {
+.icons:active,
+.list.active {
 color: #00a8ff;
 }
