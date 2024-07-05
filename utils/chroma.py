@@ -49,7 +49,7 @@ def embedding(token_split_texts):
 
 def connect_with_chromadb(embedding_function, token_split_texts):
     chroma_client = chromadb.Client()
-    chroma_collection = chroma_client.create_collection("microsoft_annual_report_2021", embedding_function=embedding_function)
+    chroma_collection = chroma_client.create_collection("m21", embedding_function=embedding_function)
 
     ids = [str(i) for i in range(len(token_split_texts))]
 
