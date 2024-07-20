@@ -4,6 +4,7 @@ from ragbackend.utils import (
     contract,
     embedding,
     reranking,
-    weaviate
+    weaviate,
+    file
 )
 

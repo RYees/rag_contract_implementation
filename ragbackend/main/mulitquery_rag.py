@@ -11,6 +11,7 @@ from langchain_openai import ChatOpenAI
 from langchain.load import dumps, loads
 from ragbackend.utils import chroma
 from ragbackend.utils.chunking import ChunkingApproaches
+from ragbackend.utils.file import FileReader
 from flask import request, jsonify
 from dotenv import dotenv_values
 env_vars = dotenv_values('.env')
@@ -25,14 +26,15 @@ class MultiQueryRag(BaseResource):
             value = request.get_json()
             file_path = value.get('file_path')
             question = value.get('question')
-
-            documents = chroma.pdf_reader(self, file_path)
+            print("#####")
+            print(value)
+            documents = FileReader.pdf_reader_to_document_format(file_path)
             embed = OpenAIEmbeddings(model="text-embedding-3-small", openai_api_key=env_vars.get('OPENAI_API_KEY'))
-            token_split_texts = ChunkingApproaches.chunking_strategy(documents) 
-            vectorstore = FAISS.from_documents(token_split_texts, embed)
+            # chunk_list = ChunkingApproaches.chunking_RecursiveCharacterTextSplitter(documents) 
+            vectorstore = FAISS.from_documents(documents, embed)
             retriever = vectorstore.as_retriever()
             retrieval_chain = self.generate_queries(retriever)
-        
+          
             template = """
                 Provide an answer to the following question based on the given legal contract context. Be sure to include the relevant section number(s) in your response. If there are multiple possible answers, list them all.
 
@@ -53,20 +55,22 @@ class MultiQueryRag(BaseResource):
                 | StrOutputParser()
             )
             llm_response = final_rag_chain.invoke({"question": question})
-            return jsonify(llm_response), 200
+          
+            return  {"response": llm_response}, 200
+       
         except Exception as error:
-            print(error)
-            return jsonify({"error": "An error occurred"}), 500
+            # print(error)
+            return jsonify({"error": f"An error occurred {error}"}), 500
 
-    def get_unique_union(documents: list[list]):
+    def get_unique_union(self, documents: list[list]):
         try:
             """ Unique union of retrieved docs """
             flattened_docs = [dumps(doc) for sublist in documents for doc in sublist]
             unique_docs = list(set(flattened_docs))
-            return jsonify([loads(doc) for doc in unique_docs]), 200
+            return [loads(doc) for doc in unique_docs], 200
         except Exception as error:
-            print(error)
-            return jsonify({"error": "An error occurred"}), 500
+            # print(error)
+            return jsonify({"error": f"An error occurred {error}"}), 500
     
     def generate_queries(self, retriever):
         try:
@@ -84,15 +88,9 @@ class MultiQueryRag(BaseResource):
                 | (lambda x: x.split("\n"))
             )
             retrieval_chain = generate_queries | retriever.map() | self.get_unique_union
-            return jsonify(retrieval_chain), 200
+            return retrieval_chain
         except Exception as error:
-            print(error)
-            return jsonify({"error": "An error occurred"}), 500
+            # print(error)
+            return jsonify({"error": f"An error occurred {error}"}), 500
 
-    # def chunk(file_path:str):
-    #     documents = chroma.pdf_reader(file_path)
-    #     embed = OpenAIEmbeddings(model="text-embedding-3-small", openai_api_key=env_vars.get('OPENAI_API_KEY'))
-    #     token_split_texts = chunk.chunking_strategy(documents) 
-    #     vectorstore = FAISS.from_documents(token_split_texts, embed)
-    #     retriever = vectorstore.as_retriever()
-    #     return retriever
+ 

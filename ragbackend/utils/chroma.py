@@ -1,5 +1,4 @@
 #from helper_utils import word_wrap # helper functions from utilities
-from pypdf import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter, SentenceTransformersTokenTextSplitter
 from dotenv import dotenv_values
 import chromadb
@@ -12,14 +11,6 @@ from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunct
 env_vars = dotenv_values('.env')
 openai.api_key = env_vars.get('OPENAI_API_KEY')
 openai_client = openai.OpenAI(api_key=openai.api_key)
-
-def pdf_reader(file_path):
-    reader = PdfReader(file_path)
-    pdf_texts = [p.extract_text().strip() for p in reader.pages]
-    # Filter the empty strings
-    pdf_texts = [text for text in pdf_texts if text]
-    # print(pdf_texts[0])
-    return pdf_texts
 
 def text_splitter_chunks(pdf_texts):
     character_splitter = RecursiveCharacterTextSplitter(
