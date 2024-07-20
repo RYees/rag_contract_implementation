@@ -3,7 +3,6 @@ from flask_restful import Api
 from werkzeug.wrappers import Response
 from ragbackend.main.rag_engine import (
     RagEngineResource,
-    TestResource,
     TestViewResource
 )
 from ragbackend.main.mulitquery_rag import (
@@ -23,6 +22,5 @@ class ApiExt(Api):
 api = ApiExt()
 
 api.add_org_resource(RagEngineResource, "/api/rag_engine", endpoint="rag_engine")
-api.add_org_resource(TestResource, "/", endpoint="test")
-api.add_org_resource(TestViewResource, "/api/view", endpoint="view")
+api.add_org_resource(TestViewResource, "/", endpoint="view")
 api.add_org_resource(MultiQueryRag, "/api/multiquery", endpoint="multiquery")

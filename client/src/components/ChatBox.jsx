@@ -2,6 +2,7 @@ import React,{useRef, useState, useEffect} from 'react'
 import '../styles/chatbox.css'
 import contract from '../assets/contract.png';
 import { UploadFile } from '../components'
+import Api from '../services/service';
 
 export default function ChatBox() {
   const [input, setInput] = useState("")
@@ -27,11 +28,19 @@ export default function ChatBox() {
     }
   }
   
-  async function chatWithOpenai(text) {   
+  async function chatWithOpenai(query) {   
+      const requestOptions = {
+        file_path: '../data/RaptorContract.pdf',
+        question: query,
+      };
+      console.log("r", requestOptions)
+      const response = await Api.ragengine(requestOptions);
+      console.log("ov", response.data.response)
       const data = {
         sender: "bot",
-        text: "ai"
+        text: response.data.response
       };
+
       setChatHistory((history) => [...history, data]);
       setInput("");          
   }

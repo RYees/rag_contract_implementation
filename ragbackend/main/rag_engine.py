@@ -10,10 +10,7 @@ from ragbackend.main.base import (
     BaseResource
 )
 
-class TestResource(BaseResource):
-    def post(self):
-        return "hey"
-    
+  
 class TestViewResource(BaseResource):
     def get(self):
         return "selam, it is working"

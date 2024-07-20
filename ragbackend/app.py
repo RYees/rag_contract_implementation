@@ -19,6 +19,8 @@
 
 
 from flask import Flask
+from flask_cors import CORS, cross_origin
+
 class Rags(Flask):
     """A custom Flask app for Rag"""
 
@@ -36,7 +38,7 @@ def create_app():
     )  
 
     app = Rags()
-
+    
     main.init_app(app)
 
     return app
