@@ -13,7 +13,7 @@ from ragbackend.main.base import (
   
 class TestViewResource(BaseResource):
     def get(self):
-        return "selam, it is working"
+        return "selam, it is working girl"
 
 class RagEngineResource(BaseResource):
     def post(self):
@@ -23,6 +23,7 @@ class RagEngineResource(BaseResource):
             question = value.get('question')
             documents = FileReader.pdf_reader_to_list_format(file_path)
             result = self.embed_and_store_to_chromadb_vectorestore(documents, question)
+            print('did you', result)
             return {"response": result}, 200
         except Exception as error:
             # print(error)

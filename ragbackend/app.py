@@ -30,7 +30,7 @@ class Rags(Flask):
         self.config["FLASK_DEBUG"] = True
         self.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
         self.config["PROPAGATE_EXCEPTIONS"] = True
-
+  
 
 def create_app():
     from . import (
