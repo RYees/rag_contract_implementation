@@ -1,6 +1,7 @@
 .env
 /env
 /venv
+/client/node_modules
 /__pycache__
 clustering.ipynb
 /data
