@@ -2,6 +2,7 @@ import React from 'react'
 import "../styles/home.css"
 import { UploadFile } from '../components'
 import Api from '../services/service'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
   const test = async() => {
@@ -20,7 +21,10 @@ const Home = () => {
           </div>
 
           <div>
-            <UploadFile/>
+            <Link to="/chat">
+              <button className='bg-white p-4 px-20 rounded-full text-xl text-gray-500 hover:text-gray-900 hover:shadow-md'>Get Started</button>
+              {/* <UploadFile/> */}
+            </Link>
           </div>
       </div>
     </>

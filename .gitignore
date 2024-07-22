@@ -1,9 +1,11 @@
 .env
 /env
+/venv
 /__pycache__
 clustering.ipynb
 /data
 /pdfs
+/test
 output.py
 clearnoutput.py
 test.py
