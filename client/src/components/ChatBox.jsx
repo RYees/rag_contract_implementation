@@ -9,9 +9,8 @@ export default function ChatBox() {
   const [open, setOpen] = useState(false);
   const [show, setShow] = useState(false);
   const [view, setView] = useState(false);
-  const [chatHistory, setChatHistory] = useState([{sender:"user", text:"How much is the escrow amount?"}, {sender:"bot", text:"The escrow amount is $1,000,000"},{sender:"user", text:"How much is the escrow amount?"},{sender:"bot", text:"The escrow amount is $1,000,000"}]);
-
-
+  const [load, setLoad] = useState(false);
+  const [chatHistory, setChatHistory] = useState([{sender:"user", text:"How much is the escrow amount?"}, {sender:"bot", text:"The escrow amount is $1,000,000"}]);
    
   const handler = (event) => {
     if (event.keyCode === 13) {      
@@ -29,20 +28,21 @@ export default function ChatBox() {
   }
   
   async function chatWithOpenai(query) {   
+      setLoad(true)
       const requestOptions = {
-        file_path: '../data/RaptorContract.pdf',
-        question: query,
+        question: query
       };
-      console.log("r", requestOptions)
+
       const response = await Api.ragengine(requestOptions);
-      console.log("ov", response.data.response)
+ 
       const data = {
         sender: "bot",
-        text: response.data.response
+        text: response.data
       };
 
       setChatHistory((history) => [...history, data]);
-      setInput("");          
+      setInput("");     
+      setLoad(false)     
   }
 
   
@@ -80,8 +80,8 @@ export default function ChatBox() {
                         <div className='ai mt-1 py-2 mx-6'>
                         {message.sender === "bot" && (
                             <div className="user">
-                                <div className="bg-white p-3 rounded inline-block max-w-fit">
-                                <p className="text-gray-500">{message.text}</p>
+                                <div className="bg-white p-3 rounded inline-block max-w-fit">                               
+                                  <p className="text-gray-500">{message.text}</p>                                
                                 </div>
                             </div>
                         )}
@@ -89,6 +89,7 @@ export default function ChatBox() {
                         )}
                     </div>
                     ))}
+                     {load? <p className='mx-6'><small>loading...</small></p>:null}
                 </div>
             </div>
 

@@ -6,8 +6,6 @@ import openai
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 
 
-
-
 env_vars = dotenv_values('.env')
 openai.api_key = env_vars.get('OPENAI_API_KEY')
 openai_client = openai.OpenAI(api_key=openai.api_key)

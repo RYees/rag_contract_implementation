@@ -58,9 +58,8 @@ class MultiQueryRag(BaseResource):
           
             return  {"response": llm_response}, 200
        
-        except Exception as error:
-            # print(error)
-            return jsonify({"error": f"An error occurred {error}"}), 500
+        except Exception as e:
+            return f'Error: {str(e)}'   
 
     def get_unique_union(self, documents: list[list]):
         try:
@@ -68,9 +67,8 @@ class MultiQueryRag(BaseResource):
             flattened_docs = [dumps(doc) for sublist in documents for doc in sublist]
             unique_docs = list(set(flattened_docs))
             return [loads(doc) for doc in unique_docs], 200
-        except Exception as error:
-            # print(error)
-            return jsonify({"error": f"An error occurred {error}"}), 500
+        except Exception as e:
+            return f'Error: {str(e)}'   
     
     def generate_queries(self, retriever):
         try:
@@ -89,8 +87,7 @@ class MultiQueryRag(BaseResource):
             )
             retrieval_chain = generate_queries | retriever.map() | self.get_unique_union
             return retrieval_chain
-        except Exception as error:
-            # print(error)
-            return jsonify({"error": f"An error occurred {error}"}), 500
+        except Exception as e:
+            return f'Error: {str(e)}'   
 
  

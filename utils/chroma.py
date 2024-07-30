@@ -1,14 +1,14 @@
 #from helper_utils import word_wrap # helper functions from utilities
 from pypdf import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter, SentenceTransformersTokenTextSplitter
-from dotenv import dotenv_values
+
 import chromadb
 import openai
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 
 
 
-
+from dotenv import dotenv_values
 env_vars = dotenv_values('.env')
 openai.api_key = env_vars.get('OPENAI_API_KEY')
 openai_client = openai.OpenAI(api_key=openai.api_key)

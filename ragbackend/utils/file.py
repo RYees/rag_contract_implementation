@@ -18,3 +18,4 @@ class FileReader:
                 metadata = {"page_number": page_number}  # Add any additional metadata as needed
                 pdf_pages.append(Page(id=page_number, page_content=page_content, metadata=metadata))
         return pdf_pages
+

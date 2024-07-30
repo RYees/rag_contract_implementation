@@ -4,6 +4,7 @@ from werkzeug.wrappers import Response
 from ragbackend.main.rag_engine import (
     RagEngineResource,
     TestViewResource,
+    RagEngineUploadDocument
     #TestPdf
 )
 from ragbackend.main.mulitquery_rag import (
@@ -22,6 +23,7 @@ class ApiExt(Api):
 
 api = ApiExt()
 
+api.add_org_resource(RagEngineUploadDocument, "/api/upload_doc", endpoint="upload")
 api.add_org_resource(RagEngineResource, "/api/rag_engine", endpoint="rag_engine")
 api.add_org_resource(TestViewResource, "/", endpoint="view")
 api.add_org_resource(MultiQueryRag, "/api/multiquery", endpoint="multiquery")

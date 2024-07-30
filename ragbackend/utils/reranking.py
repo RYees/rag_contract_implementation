@@ -7,7 +7,7 @@ class CrossEncoderReranker:
         try:
             cross_encoder = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
             query_text = query
-            pairs = [[query_text, doc] for doc in retrieved_documents]
+            pairs = [[query_text, doc.page_content] for doc in retrieved_documents]
            
             scores = cross_encoder.predict(pairs)
             for score in scores:
