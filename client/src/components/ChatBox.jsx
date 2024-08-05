@@ -10,7 +10,7 @@ export default function ChatBox() {
   const [show, setShow] = useState(false);
   const [view, setView] = useState(false);
   const [load, setLoad] = useState(false);
-  const [chatHistory, setChatHistory] = useState([{sender:"user", text:"How much is the escrow amount?"}, {sender:"bot", text:"The escrow amount is $1,000,000"}]);
+  const [chatHistory, setChatHistory] = useState([]);
    
   const handler = (event) => {
     if (event.keyCode === 13) {      
@@ -65,8 +65,8 @@ export default function ChatBox() {
             </div>
         </div>
 
-        <div className='relative w-[35rem] sm:w-[40rem] md:w-[40rem] lg:w-[40rem] xl:w-[40rem] 2xl:w-[40rem] space-y-1'>
-            <div className='chatbox h-[45rem] rounded-lg border-2 border-slate-100 shadow-sm overflow-auto'>
+        <div className='relative w-[35rem] sm:w-[40rem] md:w-[40rem] lg:w-[40rem] xl:w-[35rem] 2xl:w-[20rem] space-y-1'>
+            <div className='chatbox h-[40rem] rounded-lg border-2 border-slate-100 shadow-sm overflow-auto'>
                 <div className='border-slate-150 border-t-[2rem]'>
                     {chatHistory?.map((message, index) => (
                     <div key={index} className={`${message.sender} ml-4 mt-3`}>

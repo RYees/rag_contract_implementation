@@ -1,0 +1,30 @@
+version: '3'
+services:
+  client:
+    image: frontend_rag
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+      # dockerfile: Dockerfile.combo
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+  ragbackend:
+    image: backend_rag
+    build: 
+      context: .
+      dockerfile: ./ragbackend/Dockerfile
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+    command: flask run --host=0.0.0.0 --port=5000
+    expose:
+      - 5000
+    ports:
+      - "5000:5000"
+
