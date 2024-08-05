@@ -38,8 +38,4 @@ Steps to do run the project:
 * TO STOP THE APP
 ```
    make stop
-```n add
-```
-```
-   yarn
 ```
