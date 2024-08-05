@@ -12,7 +12,7 @@ The contract analysis chatbot is designed to empower users in the process of rev
 The core functionality of the chatbot lies in its ability to retrieve relevant information from the contract documents and generate contextual responses tailored to the user's queries. This integration of retrieval and generation techniques enables the chatbot to provide users with a seamless and efficient contract review experience, reducing the burden of manually sifting through lengthy legal documents.
 
 ![Watch the video]
-(https://www.canva.com/design/DAGM_5HHP7k/343E61MSOza2K8xadVMuOg/edit?utm_content=DAGM_5HHP7k&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+(https://www.canva.com/design/DAGM_5HHP7k/343E61MSOza2K8xadVMuOg/edit)
 
 ## Usage
 The primary purpose of the Legal Contract Analyzer chatbot is to provide users with tailored responses to their questions and concerns about the contracts they have uploaded to the system. By leveraging the power of Retrieval-Augmented Generation (RAG) technology, the chatbot can engage in natural language conversations with users, empowering them to gain a deeper understanding of their legal contracts.
